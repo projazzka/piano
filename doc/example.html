@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>piano - an interactive keyboard plugin for jQuery</title>
+<script src="../piano.js"></script>
+<script>
+
+function display(halftone) {
+	notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
+		"c", "c#", "d", "d#", "e", "f", "f#", "g", "g#", "a", "a#", "b", "c'" ];
+	$('note').text(notes[halftone]);
+}
+
+$('piano').piano({
+	type:"normal", // common piano keyboard
+	width:600, // dimensions in pixels
+	height:100,
+	start:0, // start halftone (counting from C as 0)
+	end:24, // end halftone
+	ebony: 0x666, 			// color code for black keys
+	ebonySelected: 0xddd,	// color code for pressed black keys
+	ivory: 0xeee, 			// color code for white keys
+	ivorySelected: 0x888,	// color code for pressed white keys
+	border: 0x000			// color code for key borders. set to null for no border
+	press: press, // callback for key pressed events
+	release: function(halftone) { $('note').text('') }, // callback for key release events
+};
+</script>
+</head>
+<body>
+<h1>Example for the piano plugin for jQuery</h1>
+<p>Documentation at <a href="http://www.l90r.com/posts/piano-a-flexible-piano-keyboard-plugin-for-jquery">http://www.l90r.com/posts/piano-a-flexible-piano-keyboard-plugin-for-jquery</a></p>
+
+<p>Current note is: <span id="note"></span></p>
+
+<div id="piano"></div>
+
