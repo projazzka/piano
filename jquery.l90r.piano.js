@@ -9,8 +9,8 @@
 	$.widget('l90r.piano', {
 		options: {
 			layout : "piano",
-			width : 1200,
-			height : 100,
+			ivoryWidth : 13,
+			ivoryHeight : 100,
 			ebonyWidth : 0.5,
 			ebonyHeight: 0.6,
 			start : 4,
@@ -40,8 +40,8 @@
 			var obj = this.element;
 			var layout = this.layouts[this.options.layout];
 			var modulo = layout.length;
-			var ebonyWidth = this.ivoryWidth() * this.options.ebonyWidth;
-			var ebonyHeight = this.ivoryHeight() * this.options.ebonyHeight;
+			var ebonyWidth = this.options.ivoryWidth * this.options.ebonyWidth;
+			var ebonyHeight = this.options.ivoryHeight * this.options.ebonyHeight;
 			
 			// add key div's
 			var whiteCounter = 0;
@@ -56,12 +56,12 @@
 					var black = obj.children().last();
 					var p = black.position();
 					black.width(ebonyWidth).height(ebonyHeight).css('position','absolute')
-						.offset( { top:p.top, left:(p.left  + (this.ivoryWidth()+1)*whiteCounter) + (-1+xshift)*ebonyWidth/2 });
+						.offset( { top:p.top, left:(p.left  + (this.options.ivoryWidth+1)*whiteCounter) + (-1+xshift)*ebonyWidth/2 });
 				}
 			}
 			
 			// style white keys
-			var ivory = obj.children('.piano-ivory').width(this.ivoryWidth()).height(this.ivoryHeight())
+			var ivory = obj.children('.piano-ivory').width(this.options.ivoryWidth).height(this.options.ivoryHeight)
 				.css('background-color', this.options.ivory).css('float', 'left');
 			if(this.options.border) {
 				ivory.css('border', '1px solid ' + this.options.border).not(":last").css('border-right', 'none');
@@ -71,25 +71,6 @@
 			if(this.options.border) {
 				obj.children('.piano-ebony').css('background-color', this.options.ebony).css('border', '1px solid ' + this.options.border);
 			}
-		},
-		
-		init: function() {
-			
-		},
-		
-		ivoryWidth: function() {
-			var width = (this.options.width / this.options.keys);
-			if( this.options.border != null ) {
-			 	 width--;
-			}
-			return width;
-		},
-		ivoryHeight: function() {
-			var height = this.options.height;
-			if( this.options.border != null ) {
-			 	 height -= 2;
-			}
-			return height;
 		}
 
 	});
