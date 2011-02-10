@@ -34,6 +34,7 @@
 
 		_create: function(){			
 			this.addkeys();
+			this.element.children('.piano-key').mousedown(this.press()).mouseup(this.release());
 		},
 		
 		addkeys: function() {
@@ -49,14 +50,15 @@
 			for(var i=this.options.start; i<this.options.start+this.options.keys; i++) {
 				var key = i % modulo;
 				if(layout[key][0] == "w") {
-					$('<div/>').addClass('piano-ivory piano-' + key).appendTo(obj);
+					$('<div/>').addClass('piano-ivory piano-key piano-' + key).appendTo(obj).data('piano-key', i);
 					whiteCounter++;
 				} else {
 					var xshift = layout[key][1];
 					$('<div/>').width(ebonyWidth).height(ebonyHeight).css('position','absolute')
 						.offset( { top:pos.top, left:pos.left + 1 + ((this.options.ivoryWidth+1)*whiteCounter) + (-1+xshift)*ebonyWidth/2 })
-						.addClass('piano-ebony piano-' + key)
-						.appendTo(obj);
+						.addClass('piano-ebony piano-key piano-' + key)
+						.appendTo(obj)
+						.data('piano-key', i);
 				}
 			}
 			
@@ -71,7 +73,28 @@
 			if(this.options.border) {
 				obj.children('.piano-ebony').css('background-color', this.options.ebony).css('border', '1px solid ' + this.options.border);
 			}
+		},
+		
+		press: function() {
+			var func = this.options.press;
+			return function() {
+				if(func) {
+					func($(this).data('piano-key'));
+				}
+				return false;
+			}
+		},
+		
+		release: function() {
+			var func = this.options.release;
+			return function() {
+				if(func) {
+					func($(this).data('piano-key'));
+				}
+				return false;
+			}
 		}
+
 
 	});
 		
