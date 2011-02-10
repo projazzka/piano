@@ -42,21 +42,21 @@
 			var modulo = layout.length;
 			var ebonyWidth = this.options.ivoryWidth * this.options.ebonyWidth;
 			var ebonyHeight = this.options.ivoryHeight * this.options.ebonyHeight;
+			var pos = obj.offset();
 			
 			// add key div's
 			var whiteCounter = 0;
 			for(var i=this.options.start; i<this.options.start+this.options.keys; i++) {
 				var key = i % modulo;
 				if(layout[key][0] == "w") {
-					obj.append('<div class="piano-ivory piano-' + key + '"></div>');
+					$('<div/>').addClass('piano-ivory piano-' + key).appendTo(obj);
 					whiteCounter++;
 				} else {
 					var xshift = layout[key][1];
-					obj.append('<div class="piano-ebony piano-' + key + '"></div>');
-					var black = obj.children().last();
-					var p = black.position();
-					black.width(ebonyWidth).height(ebonyHeight).css('position','absolute')
-						.offset( { top:p.top, left:(p.left  + (this.options.ivoryWidth+1)*whiteCounter) + (-1+xshift)*ebonyWidth/2 });
+					$('<div/>').width(ebonyWidth).height(ebonyHeight).css('position','absolute')
+						.offset( { top:pos.top, left:pos.left + 1 + ((this.options.ivoryWidth+1)*whiteCounter) + (-1+xshift)*ebonyWidth/2 })
+						.addClass('piano-ebony piano-' + key)
+						.appendTo(obj);
 				}
 			}
 			
