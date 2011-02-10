@@ -14,7 +14,6 @@ function display(halftone) {
 
 $(function() {
 	$('#piano').piano({
-		layout: "simple",
 		press: display, // callback for key pressed events
 		release: function(halftone) { $('note').text('') }, // callback for key release events
 	});
