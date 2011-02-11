@@ -52,13 +52,13 @@
 			for(var i=this.options.start; i<this.options.start+this.options.keys; i++) {
 				var key = i % modulo;
 				if(layout[key][0] == "w") {
-					$('<div/>').addClass('piano-ivory piano-key piano-' + key).appendTo(obj).data('piano-key', i);
+					$('<div/>').addClass('piano-ivory piano-key piano-' + i).appendTo(obj).data('piano-key', i);
 					whiteCounter++;
 				} else {
 					var xshift = layout[key][1];
 					$('<div/>').width(ebonyWidth).height(ebonyHeight).css('position','absolute')
 						.offset( { top:pos.top, left:pos.left + 1 + ((this.options.ivoryWidth+1)*whiteCounter) + (-1+xshift)*ebonyWidth/2 })
-						.addClass('piano-ebony piano-key piano-' + key)
+						.addClass('piano-ebony piano-key piano-' + i)
 						.appendTo(obj)
 						.data('piano-key', i);
 				}
