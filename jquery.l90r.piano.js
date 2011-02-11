@@ -48,6 +48,7 @@
 		
 		addkeys: function() {
 			var obj = this.element;
+			obj.height(this.options.ivoryHeight);
 			var layout = this.layouts[this.options.layout];
 			var modulo = layout.length;
 			var ebonyWidth = this.options.ivoryWidth * this.options.ebonyWidth;
