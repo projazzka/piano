@@ -7,10 +7,9 @@
 <script>
 
 $(function() {
-	$('#piano').piano({
-		press: function display(halftone) {	$('#note').text(halftone); },
-		release: function(halftone) { $('#note').text('') }, // callback for key release events
-	});
+	$('#piano').piano({})
+		.bind('pianodown', function display(event, halftone, pressed) { $('#note').text(pressed.join(', ')); } )
+		.bind('pianoup', function(event, halftone, pressed) { $('#note').text(pressed.join(', ')) });
 });
 
 </script>

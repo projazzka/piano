@@ -34,7 +34,7 @@
 
 		_create: function(){			
 			this.addkeys();
-			this.element.children('.piano-key').mousedown(this.press()).mouseup(this.release());
+			this.element.children('.piano-key').mousedown(this.press()).mouseup(this.release()).mouseout(this.release());
 		},
 		
 		addkeys: function() {
@@ -75,22 +75,40 @@
 			}
 		},
 		
+		pressed: new Array(),
+		
+		addKey: function(key) {
+			this.pressed[key] = true;
+		},
+		
+		removeKey: function(key) {
+			delete this.pressed[key];
+		},
+		
+		getKeys: function(key) {
+			var keys = [];
+			for( var key in this.pressed ) {
+				keys.push(key);
+			}
+			return keys;
+		},
+		
 		press: function() {
-			var func = this.options.press;
+			var piano = this; 
 			return function() {
-				if(func) {
-					func($(this).data('piano-key'));
-				}
+				var key = $(this).data('piano-key');
+				piano.addKey(key);
+				piano.element.trigger('pianodown', [key, piano.getKeys()]);
 				return false;
 			}
 		},
 		
 		release: function() {
-			var func = this.options.release;
+			var piano = this; 
 			return function() {
-				if(func) {
-					func($(this).data('piano-key'));
-				}
+				var key = $(this).data('piano-key');
+				piano.removeKey(key);
+				piano.element.trigger('pianoup', [key, piano.getKeys()]);
 				return false;
 			}
 		}
