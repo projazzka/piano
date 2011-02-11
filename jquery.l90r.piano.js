@@ -2,7 +2,9 @@
  * 
  * (c) 2010 by Igor Prochazka
  * http://www.l90r.com/posts/piano-a-flexible-piano-keyboard-plugin-for-jquery
- * If you find it useful please publish a link back to the plugin's web page.
+ * Licensed under GNU Public License (GPL) version 3 (http://www.gnu.org/licenses/gpl.html)
+ *
+ * Please, if you find this software useful publish a link back to the plugin's web page.
  */
 
 (function($){
