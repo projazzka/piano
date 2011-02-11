@@ -11,11 +11,11 @@
 	$.widget('l90r.piano', {
 		options: {
 			layout : "piano",
-			ivoryWidth : 13,
+			ivoryWidth : 18,
 			ivoryHeight : 100,
 			ebonyWidth : 0.5,
 			ebonyHeight: 0.6,
-			start : 4,
+			start : 9,
 			keys : 88,
 			ebony : '#666',
 			ebonySelected : '#ddd',
@@ -36,7 +36,12 @@
 
 		_create: function(){			
 			this.addkeys();
-			this.element.children('.piano-key').mousedown(this.press()).mouseup(this.release()).mouseout(this.release());
+			this.element.children('.piano-key')
+				.mousedown(this.press())
+				.mouseup(this.release())
+				.mouseout(this.release());
+			this.element.bind('pianodown', this.highlight(true))
+				.bind('pianoup', this.highlight(false));			
 		},
 		
 		addkeys: function() {
@@ -113,8 +118,18 @@
 				piano.element.trigger('pianoup', [key, piano.getKeys()]);
 				return false;
 			}
+		},
+		
+		highlight: function(hi) {
+			var piano = this;
+			var ivory = hi ? this.options.ivorySelected : this.options.ivory;
+			var ebony = hi ? this.options.ebonySelected : this.options.ebony;
+			return function(event, key) {
+				var test = piano.element.children('.piano-' + key);
+				piano.element.children('.piano-ivory.piano-' + key).css('background-color',ivory);
+				piano.element.children('.piano-ebony.piano-' + key).css('background-color',ebony);
+			}
 		}
-
 
 	});
 		
