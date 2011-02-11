@@ -11,16 +11,16 @@
 	$.widget('l90r.piano', {
 		options: {
 			layout : "piano",
-			ivoryWidth : 18,
-			ivoryHeight : 100,
-			ebonyWidth : 0.5,
-			ebonyHeight: 0.6,
+			whiteWidth : 18,
+			whiteHeight : 100,
+			blackWidth : 0.5,
+			blackHeight: 0.6,
 			start : 9,
 			keys : 88,
-			ebony : '#666',
-			ebonySelected : '#ddd',
-			ivory : '#f5f5f5',
-			ivorySelected : '#888',
+			blackColor : '#666',
+			blackColorSelected : '#ddd',
+			whiteColor : '#f5f5f5',
+			whiteColorSelected : '#888',
 			border : '#000',
 			sustain : false
 		},
@@ -59,11 +59,11 @@
 		
 		_createKeys: function() {
 			var obj = this.element;
-			obj.height(this.options.ivoryHeight);
+			obj.height(this.options.whiteHeight);
 			var layout = this._layouts[this.options.layout];
 			var modulo = layout.length;
-			var ebonyWidth = this.options.ivoryWidth * this.options.ebonyWidth;
-			var ebonyHeight = this.options.ivoryHeight * this.options.ebonyHeight;
+			var blackWidth = this.options.whiteWidth * this.options.blackWidth;
+			var blackHeight = this.options.whiteHeight * this.options.blackHeight;
 			var pos = obj.offset();
 			
 			// add key div's
@@ -75,8 +75,8 @@
 					whiteCounter++;
 				} else {
 					var xshift = layout[key][1];
-					$('<div/>').width(ebonyWidth).height(ebonyHeight).css('position','absolute')
-						.offset( { top:pos.top, left:pos.left + 1 + ((this.options.ivoryWidth+1)*whiteCounter) + (-1+xshift)*ebonyWidth/2 })
+					$('<div/>').width(blackWidth).height(blackHeight).css('position','absolute')
+						.offset( { top:pos.top, left:pos.left + 1 + ((this.options.whiteWidth+1)*whiteCounter) + (-1+xshift)*blackWidth/2 })
 						.addClass('piano-ebony piano-key piano-' + i)
 						.appendTo(obj)
 						.data('piano-key', i);
@@ -84,15 +84,15 @@
 			}
 			
 			// style white keys
-			var ivory = obj.children('.piano-ivory').width(this.options.ivoryWidth).height(this.options.ivoryHeight)
-				.css('background-color', this.options.ivory).css('float', 'left');
+			var whiteKeys = obj.children('.piano-ivory').width(this.options.whiteWidth).height(this.options.whiteHeight)
+				.css('background-color', this.options.whiteColor).css('float', 'left');
 			if(this.options.border) {
-				ivory.css('border', '1px solid ' + this.options.border).not(":last").css('border-right', 'none');
+				whiteKeys.css('border', '1px solid ' + this.options.border).not(":last").css('border-right', 'none');
 			}
 			
 			// style black keys
 			if(this.options.border) {
-				obj.children('.piano-ebony').css('background-color', this.options.ebony).css('border', '1px solid ' + this.options.border);
+				obj.children('.piano-ebony').css('background-color', this.options.blackColor).css('border', '1px solid ' + this.options.border);
 			}
 		},
 		
@@ -146,8 +146,8 @@
 		
 		_highlight: function(hi) {
 			var piano = this;
-			var ivory = hi ? this.options.ivorySelected : this.options.ivory;
-			var ebony = hi ? this.options.ebonySelected : this.options.ebony;
+			var ivory = hi ? this.options.whiteColorSelected : this.options.whiteColor;
+			var ebony = hi ? this.options.blackColorSelected : this.options.blackColor;
 			return function(event, key) {
 				var test = piano.element.children('.piano-' + key);
 				piano.element.children('.piano-ivory.piano-' + key).css('background-color',ivory);
