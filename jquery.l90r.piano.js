@@ -13,8 +13,8 @@
 			layout : "piano",
 			whiteWidth : 18,
 			whiteHeight : 100,
-			blackWidth : 0.5,
-			blackHeight: 0.6,
+			blackWidth : 9,
+			blackHeight: 60,
 			start : 9,
 			keys : 88,
 			blackColor : '#666',
@@ -62,8 +62,8 @@
 			obj.height(this.options.whiteHeight);
 			var layout = this._layouts[this.options.layout];
 			var modulo = layout.length;
-			var blackWidth = this.options.whiteWidth * this.options.blackWidth;
-			var blackHeight = this.options.whiteHeight * this.options.blackHeight;
+			var blackWidth = this.options.blackWidth;
+			var blackHeight = this.options.blackHeight;
 			var pos = obj.offset();
 			
 			// add key div's
@@ -76,7 +76,7 @@
 				} else {
 					var xshift = layout[key][1];
 					$('<div/>').width(blackWidth).height(blackHeight).css('position','absolute')
-						.offset( { top:pos.top, left:pos.left + 1 + ((this.options.whiteWidth+1)*whiteCounter) + (-1+xshift)*blackWidth/2 })
+						.offset( { top:pos.top, left:pos.left + 1 + ((this.options.whiteWidth+1)*whiteCounter) + Math.round((-1+xshift)*blackWidth/2) })
 						.addClass('piano-ebony piano-key piano-' + i)
 						.appendTo(obj)
 						.data('piano-key', i);
