@@ -21,9 +21,7 @@
 			ebonySelected : '#ddd',
 			ivory : '#f5f5f5',
 			ivorySelected : '#888',
-			border : '#000',
-			press : null,
-			release : null
+			border : '#000'
 		},
 		
 		// layout format: [[<black ("b") or white ("w")>, black key displacement (0: middle, -1: all left, 1: all right)]]
