@@ -21,8 +21,11 @@
 			ebonySelected : '#ddd',
 			ivory : '#f5f5f5',
 			ivorySelected : '#888',
-			border : '#000'
+			border : '#000',
+			sustain : false
 		},
+		
+		sustained: false,
 		
 		// layout format: [[<black ("b") or white ("w")>, black key displacement (0: middle, -1: all left, 1: all right)]]
 		layouts : {
@@ -40,6 +43,7 @@
 				.mouseout(this.release());
 			this.element.bind('pianodown', this.highlight(true))
 				.bind('pianoup', this.highlight(false));			
+			this.sustained = this.options.sustain;
 		},
 		
 		addkeys: function() {
@@ -98,12 +102,21 @@
 			return keys;
 		},
 		
+		pressKey: function(key) {
+				this.addKey(key);
+				this.element.trigger('pianodown', [key, this.getKeys()]);			
+		},
+		
+		releaseKey: function(key) {
+				this.removeKey(key);
+				this.element.trigger('pianoup', [key, this.getKeys()]);			
+		},
+		
 		press: function() {
 			var piano = this; 
 			return function() {
 				var key = $(this).data('piano-key');
-				piano.addKey(key);
-				piano.element.trigger('pianodown', [key, piano.getKeys()]);
+				piano.pressKey(key);
 				return false;
 			}
 		},
@@ -111,9 +124,11 @@
 		release: function() {
 			var piano = this; 
 			return function() {
+				if(piano.sustained) {
+					return;
+				}
 				var key = $(this).data('piano-key');
-				piano.removeKey(key);
-				piano.element.trigger('pianoup', [key, piano.getKeys()]);
+				piano.releaseKey(key);
 				return false;
 			}
 		},
@@ -126,6 +141,14 @@
 				var test = piano.element.children('.piano-' + key);
 				piano.element.children('.piano-ivory.piano-' + key).css('background-color',ivory);
 				piano.element.children('.piano-ebony.piano-' + key).css('background-color',ebony);
+			}
+		},
+		
+		sustain: function(down) {
+			this.sustained = down;
+			var piano = this;
+			if(!down) {
+				$.each(piano.getKeys(), function(idx, val) { piano.releaseKey(val); });
 			}
 		}
 
