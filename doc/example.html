@@ -7,9 +7,12 @@
 <script>
 
 $(function() {
-	$('#piano').piano({})
+	$('#piano').piano()
 		.bind('pianodown', function display(event, halftone, pressed) { $('#note').text(pressed.join(', ')); } )
 		.bind('pianoup', function(event, halftone, pressed) { $('#note').text(pressed.join(', ')) });
+	$('#sustain').click( function() {
+		$('#piano').piano('sustain', $(this).is(':checked'));
+	});
 });
 
 </script>
@@ -19,6 +22,5 @@ $(function() {
 <p>Documentation at <a href="http://www.l90r.com/posts/piano-a-flexible-piano-keyboard-plugin-for-jquery">http://www.l90r.com/posts/piano-a-flexible-piano-keyboard-plugin-for-jquery</a></p>
 
 <p>Current note is: <span id="note"></span></p>
-
 <div id="piano"></div>
-
+<p>Sustain pedal: <input id="sustain" type="checkbox" /></p>
