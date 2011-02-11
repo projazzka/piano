@@ -25,10 +25,21 @@
 			sustain : false
 		},
 		
-		sustained: false,
+		// public widget method
+		sustain: function(down) {
+			this.sustained = down;
+			var piano = this;
+			if(!down) {
+				$.each(piano._getKeys(), function(idx, val) { piano._releaseKey(val); });
+			}
+		},
+
+		_sustained: false,
 		
+		_pressedKeys: new Array(),
+				
 		// layout format: [[<black ("b") or white ("w")>, black key displacement (0: middle, -1: all left, 1: all right)]]
-		layouts : {
+		_layouts : {
 			"piano": [["w", 0], ["b", -0.5], ["w", 0], ["b", 0.5], ["w", 0], ["w", 0], ["b", -0.8], ["w", 0], ["b", 0], ["w", 0], ["b", 0.5], ["w", 0]],
 			"simple": [["w", 0], ["b", 0], ["w", 0], ["b", 0], ["w", 0], ["w", 0], ["b", 0], ["w", 0], ["b", 0], ["w", 0], ["b", 0], ["w", 0]],
 			"alternating": [["w",0], ["b",0]],
@@ -36,20 +47,20 @@
 		},
 
 		_create: function(){			
-			this.addkeys();
+			this._createKeys();
 			this.element.children('.piano-key')
-				.mousedown(this.press())
-				.mouseup(this.release())
-				.mouseout(this.release());
-			this.element.bind('pianodown', this.highlight(true))
-				.bind('pianoup', this.highlight(false));			
+				.mousedown(this._mouseDownCb())
+				.mouseup(this._mouseUpCb())
+				.mouseout(this._mouseUpCb());
+			this.element.bind('pianodown', this._highlight(true))
+				.bind('pianoup', this._highlight(false));			
 			this.sustained = this.options.sustain;
 		},
 		
-		addkeys: function() {
+		_createKeys: function() {
 			var obj = this.element;
 			obj.height(this.options.ivoryHeight);
-			var layout = this.layouts[this.options.layout];
+			var layout = this._layouts[this.options.layout];
 			var modulo = layout.length;
 			var ebonyWidth = this.options.ivoryWidth * this.options.ebonyWidth;
 			var ebonyHeight = this.options.ivoryHeight * this.options.ebonyHeight;
@@ -85,56 +96,55 @@
 			}
 		},
 		
-		pressed: new Array(),
-		
-		addKey: function(key) {
-			this.pressed[key] = true;
+		_addKey: function(key) {
+			this._pressedKeys[key] = true;
 		},
 		
-		removeKey: function(key) {
-			delete this.pressed[key];
+		_removeKey: function(key) {
+			delete this._pressedKeys[key];
 		},
 		
-		getKeys: function(key) {
+		// get array of pressed keys
+		_getKeys: function() {
 			var keys = [];
-			for( var key in this.pressed ) {
+			for( var key in this._pressedKeys ) {
 				keys.push(key);
 			}
 			return keys;
 		},
 		
-		pressKey: function(key) {
-				this.addKey(key);
-				this.element.trigger('pianodown', [key, this.getKeys()]);			
+		_pressKey: function(key) {
+				this._addKey(key);
+				this.element.trigger('pianodown', [key, this._getKeys()]);			
 		},
 		
-		releaseKey: function(key) {
-				this.removeKey(key);
-				this.element.trigger('pianoup', [key, this.getKeys()]);			
+		_releaseKey: function(key) {
+				this._removeKey(key);
+				this.element.trigger('pianoup', [key, this._getKeys()]);			
 		},
 		
-		press: function() {
+		_mouseDownCb: function() {
 			var piano = this; 
 			return function() {
 				var key = $(this).data('piano-key');
-				piano.pressKey(key);
+				piano._pressKey(key);
 				return false;
 			}
 		},
 		
-		release: function() {
+		_mouseUpCb: function() {
 			var piano = this; 
 			return function() {
 				if(piano.sustained) {
 					return;
 				}
 				var key = $(this).data('piano-key');
-				piano.releaseKey(key);
+				piano._releaseKey(key);
 				return false;
 			}
 		},
 		
-		highlight: function(hi) {
+		_highlight: function(hi) {
 			var piano = this;
 			var ivory = hi ? this.options.ivorySelected : this.options.ivory;
 			var ebony = hi ? this.options.ebonySelected : this.options.ebony;
@@ -143,16 +153,7 @@
 				piano.element.children('.piano-ivory.piano-' + key).css('background-color',ivory);
 				piano.element.children('.piano-ebony.piano-' + key).css('background-color',ebony);
 			}
-		},
-		
-		sustain: function(down) {
-			this.sustained = down;
-			var piano = this;
-			if(!down) {
-				$.each(piano.getKeys(), function(idx, val) { piano.releaseKey(val); });
-			}
 		}
-
 	});
 		
 }(jQuery));
