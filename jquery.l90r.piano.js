@@ -21,7 +21,7 @@
 			blackColorSelected : '#ddd',
 			whiteColor : '#f5f5f5',
 			whiteColorSelected : '#888',
-			border : '#000',
+			borderColor : '#000',
 			sustain : false
 		},
 		
@@ -86,13 +86,13 @@
 			// style white keys
 			var whiteKeys = obj.children('.piano-ivory').width(this.options.whiteWidth).height(this.options.whiteHeight)
 				.css('background-color', this.options.whiteColor).css('float', 'left');
-			if(this.options.border) {
-				whiteKeys.css('border', '1px solid ' + this.options.border).not(":last").css('border-right', 'none');
+			if(this.options.borderColor) {
+				whiteKeys.css('border', '1px solid ' + this.options.borderColor).not(":last").css('border-right', 'none');
 			}
 			
 			// style black keys
-			if(this.options.border) {
-				obj.children('.piano-ebony').css('background-color', this.options.blackColor).css('border', '1px solid ' + this.options.border);
+			if(this.options.borderColor) {
+				obj.children('.piano-ebony').css('background-color', this.options.blackColor).css('border', '1px solid ' + this.options.borderColor);
 			}
 		},
 		
