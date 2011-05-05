@@ -41,11 +41,11 @@
 		// layout format: [[<black ("b") or white ("w")>, black key displacement (0: middle, -1: all left, 1: all right)]]
 		_layouts : {
 			"piano": [["w", 0], ["b", -0.5], ["w", 0], ["b", 0.5], ["w", 0], ["w", 0], ["b", -0.8], ["w", 0], ["b", 0], ["w", 0], ["b", 0.5], ["w", 0]],
-			"simple": [["w", 0], ["b", 0], ["w", 0], ["b", 0], ["w", 0], ["w", 0], ["b", 0], ["w", 0], ["b", 0], ["w", 0], ["b", 0], ["w", 0]],
-			"alternating": [["w",0], ["b",0]],
-			"plain": [["w",0]]
+						"simple": [["w", 0], ["b", 0], ["w", 0], ["b", 0], ["w", 0], ["w", 0], ["b", 0], ["w", 0], ["b", 0], ["w", 0], ["b", 0], ["w", 0]],
+						"alternating": [["w",0], ["b",0]],
+						"plain": [["w",0]]
 		},
-
+		
 		_create: function(){			
 			this._createKeys();
 			this.element.children('.piano-key')
