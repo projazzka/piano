@@ -18,9 +18,9 @@
 			start : 9,
 			keys : 88,
 			blackColor : '#666',
-			blackColorSelected : '#ddd',
+			blackColorSelected : '#4f78c4',
 			whiteColor : '#f5f5f5',
-			whiteColorSelected : '#888',
+			whiteColorSelected : '#91b3f2',
 			borderColor : '#000',
 			sustain : false
 		},
