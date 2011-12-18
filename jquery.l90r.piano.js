@@ -5,6 +5,8 @@
  * Licensed under GNU Public License (GPL) version 3 (http://www.gnu.org/licenses/gpl.html)
  *
  * Please, if you find this software useful publish a link back to the plugin's web page.
+ * 
+ * Modificado por dmmz 2011
  */
 function getKeybyValue(value,array){
   for (var j in array)
